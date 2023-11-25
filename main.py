@@ -11,11 +11,19 @@ class MyWidget(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
         self.con = sqlite3.connect("coffee.sqlite")
-        self.execute_query_and_fill_table(
-            f"SELECT Coffee.id, Coffe.title, obgarka.title, Pomol.title, Coffe.opis,  "
-            f"FROM coffee"
-            f"INNER JOIN id_obg ON id_obg.id = Coffee.obgarka "
-            f"INNER JOIN Pomol ON id_pom.id = coffee.Pomol;")
+        query = self.textEdit.setPlainText("SELECT * FROM films")
+        res = self.connection.cursor().execute(query).fetchall()
+        # Заполним размеры таблицы
+        self.tableWidget.setColumnCount(5)
+        self.tableWidget.setRowCount(0)
+        # Заполняем таблицу элементами
+        for i, row in enumerate(res):
+            self.tableWidget.setRowCount(
+                self.tableWidget.rowCount() + 1)
+            for j, elem in enumerate(row):
+                self.tableWidget.setItem(
+                    i, j, QTableWidgetItem(str(elem)))
+
 
 
 if __name__ == '__main__':
