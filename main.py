@@ -11,7 +11,9 @@ class MyWidget(QMainWindow):
         super().__init__()
         uic.loadUi("main.ui", self)
         self.con = sqlite3.connect("coffee.sqlite")
-        query = self.textEdit.setPlainText("SELECT * FROM films")
+        query = "SELECT * FROM Coffes"
+        # Перенос из правильной БД в текст эдит
+        # 14 строка значит выбери всё что есть из БД Коффис
         res = self.connection.cursor().execute(query).fetchall()
         # Заполним размеры таблицы
         self.tableWidget.setColumnCount(5)
@@ -23,7 +25,6 @@ class MyWidget(QMainWindow):
             for j, elem in enumerate(row):
                 self.tableWidget.setItem(
                     i, j, QTableWidgetItem(str(elem)))
-
 
 
 if __name__ == '__main__':
